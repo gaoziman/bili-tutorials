@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.leocoder.action.mapper.UserInfoMapper">
+    <resultMap id="BaseResultMap" type="org.leocoder.action.domain.UserInfo">
+        <!--@mbg.generated-->
+        <!--@Table t_user_info-->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="nick" jdbcType="VARCHAR" property="nick"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="sex" jdbcType="INTEGER" property="sex"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <resultMap id="UserResultMap" type="org.leocoder.action.domain.UserInfo">
+        <!--@mbg.generated-->
+        <!--@Table t_user_info-->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="nick" jdbcType="VARCHAR" property="nick"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="sex" jdbcType="INTEGER" property="sex"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <!--@mbg.generated-->
+        <association property="userImageDO" javaType="org.leocoder.action.domain.UserImage" >
+            <id column="iid"  property="id" jdbcType="INTEGER"/>
+            <result column="imageBucket" property="bucket" jdbcType="INTEGER" />
+            <result column="imageObject" property="object" jdbcType="INTEGER" />
+        </association>
+
+        <association property="userContractDO" javaType="org.leocoder.action.domain.UserContract" >
+            <id column="cid"  property="id" jdbcType="INTEGER"/>
+            <result column="contractBucket" property="bucket" jdbcType="INTEGER" />
+            <result column="contractObject" property="object" jdbcType="INTEGER" />
+        </association>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id,
+        nick,
+        `password`,
+        sex,
+        phone,
+        email,
+        address,
+        create_time,
+        update_time
+    </sql>
+
+    <select id="getUserById" resultMap="UserResultMap">
+        <!--@mbg.generated-->
+        SELECT u.*,i.id iid,i.bucket as imageBucket,i.object as imageObject,c.id cid ,c.id cid, c.bucket contractBucket, c.object contractObject
+        FROM t_user_info u
+            left join t_user_image i on u.id = i.uid
+            left join t_user_contract c on u.id = c.uid
+        WHERE u.id = #{id}
+    </select>
+
+    <select id="userList" resultMap="UserResultMap">
+        <!--@mbg.generated-->
+        SELECT u.*,i.id iid,i.bucket as imageBucket,i.object as imageObject,c.id cid ,c.id cid, c.bucket contractBucket, c.object contractObject
+        FROM t_user_info u
+        left join t_user_image i on u.id = i.uid
+        left join t_user_contract c on u.id = c.uid
+    </select>
+</mapper>
